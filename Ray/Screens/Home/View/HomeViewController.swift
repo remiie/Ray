@@ -80,20 +80,26 @@ final class HomeViewController: UIViewController {
         view.addSubview(submitButton)
         view.addSubview(favoriteButton)
         imageView.addSubview(activityIndicator)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        
+        view.addGestureRecognizer(tapGesture)
+
+        
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            imageView.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 100),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             imageView.heightAnchor.constraint(equalToConstant: HomeAppearance.imageHeight),
             
-            textField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            textField.widthAnchor.constraint(equalToConstant: 260),
             
-            submitButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16),
-            submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            submitButton.topAnchor.constraint(equalTo: textField.topAnchor, constant: 0),
+            submitButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: HomeAppearance.buttonHeight),
-            submitButton.widthAnchor.constraint(equalToConstant: HomeAppearance.buttonWidth),
+            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            submitButton.leadingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 10),
             
             activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
@@ -107,6 +113,10 @@ final class HomeViewController: UIViewController {
         submitButton.layer.cornerRadius = HomeAppearance.buttonHeight/2
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
     }
     
     private func setupViewModel() {
