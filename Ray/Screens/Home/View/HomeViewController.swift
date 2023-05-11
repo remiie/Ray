@@ -31,6 +31,7 @@ final class HomeViewController: UIViewController {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.gray.withAlphaComponent(0.7).cgColor
         button.layer.masksToBounds = true
+        button.accessibilityIdentifier = "FavoriteButton"
         button.translatesAutoresizingMaskIntoConstraints = false
        
         return button
@@ -39,6 +40,7 @@ final class HomeViewController: UIViewController {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.accessibilityIdentifier = "ImageView"
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -47,6 +49,7 @@ final class HomeViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Enter a picture name"
         textField.borderStyle = .roundedRect
+        textField.accessibilityIdentifier = "SearchTextField"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -58,6 +61,7 @@ final class HomeViewController: UIViewController {
         button.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
         button.setTitle("Search", for: .normal)
         button.layer.masksToBounds = true
+        button.accessibilityIdentifier = "SubmitButton"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

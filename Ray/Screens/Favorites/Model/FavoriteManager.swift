@@ -9,7 +9,7 @@ import UIKit
 import SQLite
 import Foundation
 
-final class FavoritesManager {
+class FavoritesManager {
     private let database: Connection
     private let favoritesTable = Table("Favorites")
     private let id = Expression<Int>("id")

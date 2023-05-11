@@ -47,4 +47,5 @@ class APIManager {
 enum APIError: Error {
     case invalidImageData
     case invalidURL
+    case unknown
 }
