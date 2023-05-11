@@ -13,10 +13,15 @@
 		B6846D862A0CDAE200161C51 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D852A0CDAE200161C51 /* AppCoordinator.swift */; };
 		B6846D8B2A0CDBDD00161C51 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D8A2A0CDBDD00161C51 /* FavoritesViewController.swift */; };
 		B6846D8D2A0CDC1100161C51 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D8C2A0CDC1100161C51 /* HomeViewController.swift */; };
-		B6846D912A0CE15E00161C51 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D902A0CE15E00161C51 /* ImageModel.swift */; };
 		B6846D962A0CE1CA00161C51 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D952A0CE1CA00161C51 /* APIManager.swift */; };
 		B6846D982A0CE2F500161C51 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D972A0CE2F500161C51 /* Observable.swift */; };
 		B6846D9A2A0CE33500161C51 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D992A0CE33500161C51 /* HomeViewModel.swift */; };
+		B6846D9D2A0CECFD00161C51 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846D9C2A0CECFD00161C51 /* String.swift */; };
+		B6846DA42A0CFBA100161C51 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846DA32A0CFBA100161C51 /* FavoritesViewModel.swift */; };
+		B6846DA62A0CFBDA00161C51 /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846DA52A0CFBDA00161C51 /* FavoriteManager.swift */; };
+		B6846DA82A0CFF8F00161C51 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846DA72A0CFF8F00161C51 /* FavoriteCell.swift */; };
+		B6846DAA2A0D016900161C51 /* FavoriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6846DA92A0D016900161C51 /* FavoriteItem.swift */; };
+		B6846DAD2A0D0DEB00161C51 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = B6846DAC2A0D0DEB00161C51 /* SQLite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +33,14 @@
 		B6846D852A0CDAE200161C51 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B6846D8A2A0CDBDD00161C51 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		B6846D8C2A0CDC1100161C51 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		B6846D902A0CE15E00161C51 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		B6846D952A0CE1CA00161C51 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		B6846D972A0CE2F500161C51 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		B6846D992A0CE33500161C51 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		B6846D9C2A0CECFD00161C51 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		B6846DA32A0CFBA100161C51 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		B6846DA52A0CFBDA00161C51 /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
+		B6846DA72A0CFF8F00161C51 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		B6846DA92A0D016900161C51 /* FavoriteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6846DAD2A0D0DEB00161C51 /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +79,7 @@
 				B6846D842A0CDAB800161C51 /* Coordinator */,
 				B6846D872A0CDAF900161C51 /* Screens */,
 				B6846D832A0CD8CD00161C51 /* Support */,
+				B6846D9B2A0CECDB00161C51 /* Extensions */,
 			);
 			path = Ray;
 			sourceTree = "<group>";
@@ -121,7 +132,9 @@
 		B6846D892A0CDBC700161C51 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				B6846D8A2A0CDBDD00161C51 /* FavoritesViewController.swift */,
+				B6846DA22A0CFB7800161C51 /* Model */,
+				B6846DA02A0CFB5600161C51 /* View */,
+				B6846DA12A0CFB6100161C51 /* ViewModel */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -130,7 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				B6846D972A0CE2F500161C51 /* Observable.swift */,
-				B6846D902A0CE15E00161C51 /* ImageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,6 +171,40 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		B6846D9B2A0CECDB00161C51 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B6846D9C2A0CECFD00161C51 /* String.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B6846DA02A0CFB5600161C51 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6846DA72A0CFF8F00161C51 /* FavoriteCell.swift */,
+				B6846D8A2A0CDBDD00161C51 /* FavoritesViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B6846DA12A0CFB6100161C51 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B6846DA32A0CFBA100161C51 /* FavoritesViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B6846DA22A0CFB7800161C51 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B6846DA52A0CFBDA00161C51 /* FavoriteManager.swift */,
+				B6846DA92A0D016900161C51 /* FavoriteItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -175,6 +221,9 @@
 			dependencies = (
 			);
 			name = Ray;
+			packageProductDependencies = (
+				B6846DAC2A0D0DEB00161C51 /* SQLite */,
+			);
 			productName = Ray;
 			productReference = B6846D6B2A0CD71D00161C51 /* Ray.app */;
 			productType = "com.apple.product-type.application";
@@ -203,6 +252,9 @@
 				Base,
 			);
 			mainGroup = B6846D622A0CD71D00161C51;
+			packageReferences = (
+				B6846DAB2A0D0DEB00161C51 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+			);
 			productRefGroup = B6846D6C2A0CD71D00161C51 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -229,12 +281,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6846DA42A0CFBA100161C51 /* FavoritesViewModel.swift in Sources */,
 				B6846D962A0CE1CA00161C51 /* APIManager.swift in Sources */,
 				B6846D8D2A0CDC1100161C51 /* HomeViewController.swift in Sources */,
-				B6846D912A0CE15E00161C51 /* ImageModel.swift in Sources */,
+				B6846D9D2A0CECFD00161C51 /* String.swift in Sources */,
+				B6846DA62A0CFBDA00161C51 /* FavoriteManager.swift in Sources */,
 				B6846D9A2A0CE33500161C51 /* HomeViewModel.swift in Sources */,
 				B6846D982A0CE2F500161C51 /* Observable.swift in Sources */,
+				B6846DAA2A0D016900161C51 /* FavoriteItem.swift in Sources */,
 				B6846D862A0CDAE200161C51 /* AppCoordinator.swift in Sources */,
+				B6846DA82A0CFF8F00161C51 /* FavoriteCell.swift in Sources */,
 				B6846D8B2A0CDBDD00161C51 /* FavoritesViewController.swift in Sources */,
 				B6846D6F2A0CD71D00161C51 /* AppDelegate.swift in Sources */,
 			);
@@ -446,6 +502,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B6846DAB2A0D0DEB00161C51 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B6846DAC2A0D0DEB00161C51 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6846DAB2A0D0DEB00161C51 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B6846D632A0CD71D00161C51 /* Project object */;
 }

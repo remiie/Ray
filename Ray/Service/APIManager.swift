@@ -10,8 +10,13 @@ import Foundation
 
 class APIManager {
     private var imageCache: [URL: UIImage] = [:]
-
-    func fetchImage(withURL url: URL, completion: @escaping (Result<UIImage, Error>) -> ()) {
+    private let imageURL = "https://loremflickr.com/500/500/"
+    
+    func fetchImage(withQuery query: String, completion: @escaping (Result<UIImage, Error>) -> ()) {
+        guard let url = URL(string: imageURL + query) else {
+            completion(.failure(APIError.invalidURL))
+            return
+        }
         if let cachedImage = imageCache[url] {
             completion(.success(cachedImage))
             return
@@ -41,4 +46,5 @@ class APIManager {
 
 enum APIError: Error {
     case invalidImageData
+    case invalidURL
 }

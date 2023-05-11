@@ -10,11 +10,31 @@ import UIKit
 struct HomeAppearance {
     static var buttonWidth: CGFloat = 120
     static var buttonHeight: CGFloat = 40
-    static var imageHeight: CGFloat = 200
+    static var imageHeight: CGFloat = 400
 }
 
 final class HomeViewController: UIViewController {
     private var viewModel: HomeViewModel!
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .gray)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Favorite", for: .normal)
+        button.backgroundColor = .white
+        button.tintColor = .black
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.gray.withAlphaComponent(0.7).cgColor
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+       
+        return button
+    }()
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -36,7 +56,7 @@ final class HomeViewController: UIViewController {
         button.tintColor = .black
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.gray.withAlphaComponent(0.4).cgColor
-        button.setTitle("Confirm", for: .normal)
+        button.setTitle("Search", for: .normal)
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -54,7 +74,8 @@ final class HomeViewController: UIViewController {
         view.addSubview(imageView)
         view.addSubview(textField)
         view.addSubview(submitButton)
-        
+        view.addSubview(favoriteButton)
+        imageView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -65,14 +86,22 @@ final class HomeViewController: UIViewController {
             textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
             
-            
             submitButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16),
             submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: HomeAppearance.buttonHeight),
-            submitButton.widthAnchor.constraint(equalToConstant: HomeAppearance.buttonWidth)
+            submitButton.widthAnchor.constraint(equalToConstant: HomeAppearance.buttonWidth),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+
+            favoriteButton.topAnchor.constraint(equalTo: imageView.topAnchor, constant: -25),
+            favoriteButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -10),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 80),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
+       
         submitButton.layer.cornerRadius = HomeAppearance.buttonHeight/2
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     }
     
@@ -81,11 +110,20 @@ final class HomeViewController: UIViewController {
         
         viewModel.image.bind { [weak self] image in
             self?.imageView.image = image
+            self?.favoriteButton.isHidden = image == nil ? true : false
         }
         
         viewModel.error.bind { [weak self] error in
             if let error = error {
                 self?.presentAlert(message: error.localizedDescription)
+            }
+        }
+        
+        viewModel.isLoading.bind { [weak self] isLoading in
+            if isLoading {
+                self?.activityIndicator.startAnimating()
+            } else {
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
@@ -95,9 +133,18 @@ final class HomeViewController: UIViewController {
             presentAlert(message: "Please enter the query")
             return
         }
-        
         viewModel.fetchImage(withQuery: query)
     }
+    
+    @objc private func favoriteButtonTapped() {
+        let color = favoriteButton.tintColor
+        favoriteButton.tintColor = color == .black ? .gray : .black
+        favoriteButton.isHidden = true
+        if let image = imageView.image {
+            viewModel.addToFavorites(image: image)
+        }
+        
+     }
     
     private func presentAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
