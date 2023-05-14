@@ -1,7 +1,6 @@
 # Ray
 
-Ray App
-The ImageSearch app is an iPhone application that generates images based on user input and allows users to save their favorite images.
+Ray App is an iPhone application that generates images based on user input and allows users to save their favorite images.
 It consists of two tabs: the Home tab for searching and generating images, and the Favorites tab for managing saved images.
 
 Features
