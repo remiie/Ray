@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct HomeAppearance {
+fileprivate struct HomeAppearance {
     static var buttonWidth: CGFloat = 120
     static var buttonHeight: CGFloat = 40
     static var imageHeight: CGFloat = 400
@@ -22,6 +22,14 @@ final class HomeViewController: UIViewController {
         return activityIndicator
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    private var scrollSubview: UIView = UIView()
+    private var tapGesture: UITapGestureRecognizer!
+    
     private lazy var favoriteButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Favorite", for: .normal)
@@ -33,7 +41,6 @@ final class HomeViewController: UIViewController {
         button.layer.masksToBounds = true
         button.accessibilityIdentifier = "FavoriteButton"
         button.translatesAutoresizingMaskIntoConstraints = false
-       
         return button
     }()
     
@@ -73,32 +80,43 @@ final class HomeViewController: UIViewController {
     }
     
     private func configureUI() {
+    
         view.backgroundColor = .white
+        view.addSubview(scrollView)
         
-        view.addSubview(imageView)
-        view.addSubview(textField)
-        view.addSubview(submitButton)
-        view.addSubview(favoriteButton)
-        imageView.addSubview(activityIndicator)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
-
+        
+        scrollView.addSubview(scrollSubview)
+        configureScrollSubview()
+        
+       
+        scrollSubview.addSubview(imageView)
+        scrollSubview.addSubview(textField)
+        scrollSubview.addSubview(submitButton)
+        scrollSubview.addSubview(favoriteButton)
+        
+        imageView.addSubview(activityIndicator)
         
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
             imageView.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 100),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            imageView.leadingAnchor.constraint(equalTo: scrollSubview.leadingAnchor, constant: 16),
+            imageView.trailingAnchor.constraint(equalTo: scrollSubview.trailingAnchor, constant: -16),
             imageView.heightAnchor.constraint(equalToConstant: HomeAppearance.imageHeight),
             
-            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            textField.topAnchor.constraint(equalTo: scrollSubview.safeAreaLayoutGuide.topAnchor, constant: 30),
+            textField.leadingAnchor.constraint(equalTo: scrollSubview.leadingAnchor, constant: 10),
             textField.widthAnchor.constraint(equalToConstant: 260),
             
             submitButton.topAnchor.constraint(equalTo: textField.topAnchor, constant: 0),
             submitButton.centerYAnchor.constraint(equalTo: textField.centerYAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: HomeAppearance.buttonHeight),
-            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            submitButton.trailingAnchor.constraint(equalTo: scrollSubview.trailingAnchor,constant: -10),
             submitButton.leadingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 10),
             
             activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
@@ -113,6 +131,17 @@ final class HomeViewController: UIViewController {
         submitButton.layer.cornerRadius = HomeAppearance.buttonHeight/2
         favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+    }
+    
+    private func configureScrollSubview() {
+        scrollSubview.translatesAutoresizingMaskIntoConstraints = false
+        scrollSubview.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        scrollSubview.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        scrollSubview.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        scrollSubview.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        scrollSubview.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        scrollSubview.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
+        
     }
     
     @objc private func hideKeyboard() {
