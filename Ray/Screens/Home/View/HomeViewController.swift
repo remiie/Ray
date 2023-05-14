@@ -77,6 +77,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         setupViewModel()
+        subscribeToKeyboardNotifications()
     }
     
     private func configureUI() {
@@ -89,7 +90,6 @@ final class HomeViewController: UIViewController {
         
         scrollView.addSubview(scrollSubview)
         configureScrollSubview()
-        
        
         scrollSubview.addSubview(imageView)
         scrollSubview.addSubview(textField)
@@ -104,12 +104,12 @@ final class HomeViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            imageView.topAnchor.constraint(equalTo: submitButton.bottomAnchor, constant: 100),
+            imageView.topAnchor.constraint(equalTo: scrollSubview.topAnchor, constant: 60),
             imageView.leadingAnchor.constraint(equalTo: scrollSubview.leadingAnchor, constant: 16),
             imageView.trailingAnchor.constraint(equalTo: scrollSubview.trailingAnchor, constant: -16),
             imageView.heightAnchor.constraint(equalToConstant: HomeAppearance.imageHeight),
             
-            textField.topAnchor.constraint(equalTo: scrollSubview.safeAreaLayoutGuide.topAnchor, constant: 30),
+            textField.topAnchor.constraint(equalTo: scrollSubview.safeAreaLayoutGuide.bottomAnchor, constant: -60),
             textField.leadingAnchor.constraint(equalTo: scrollSubview.leadingAnchor, constant: 10),
             textField.widthAnchor.constraint(equalToConstant: 260),
             
@@ -122,7 +122,7 @@ final class HomeViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
 
-            favoriteButton.topAnchor.constraint(equalTo: imageView.topAnchor, constant: -25),
+            favoriteButton.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 35),
             favoriteButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -10),
             favoriteButton.widthAnchor.constraint(equalToConstant: 80),
             favoriteButton.heightAnchor.constraint(equalToConstant: 40)
@@ -143,6 +143,23 @@ final class HomeViewController: UIViewController {
         scrollSubview.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
         
     }
+    
+    private func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func removeKeyboardSubscription() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+         scrollView.contentOffset = CGPoint(x: 0, y: keyboardSize.height)
+    }
+    
+    @objc func keyboardWillHide() { scrollView.contentOffset = CGPoint.zero }
     
     @objc private func hideKeyboard() {
         view.endEditing(true)
@@ -172,6 +189,8 @@ final class HomeViewController: UIViewController {
     }
     
     @objc private func submitButtonTapped() {
+        print("search")
+        textField.resignFirstResponder()
         guard let query = textField.text, !query.isEmpty else {
             presentAlert(message: "Please enter the query")
             return
@@ -195,5 +214,7 @@ final class HomeViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    deinit { removeKeyboardSubscription() }
 }
 
